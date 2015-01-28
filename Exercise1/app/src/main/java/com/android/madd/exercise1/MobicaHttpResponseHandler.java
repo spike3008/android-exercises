@@ -2,11 +2,12 @@ package com.android.madd.exercise1;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
+
+import timber.log.Timber;
 
 /**
  * Created by madd on 2015-01-26.
@@ -14,13 +15,15 @@ import org.apache.http.Header;
 class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
 
     private static MainActivity baseActivity;
+    private final String classFullName;
     private ProgressDialog progressDialog;
-    private final static String TAG = "HttpResponseHandler";
 
 
     public MobicaHttpResponseHandler(Context context) {
         baseActivity = null;
-        if ("com.android.madd.exercise1.MainActivity".equals(context.getClass().getName())) {
+        Timber.tag(this.getClass().getName());
+        classFullName = "com.android.madd.exercise1.MainActivity";
+        if (classFullName.equals(context.getClass().getName())) {
             baseActivity = (MainActivity) context;
             progressDialog = new ProgressDialog(baseActivity);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -29,6 +32,13 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
             progressDialog.setIndeterminate(true);
             progressDialog.show();
         }
+        else {
+            Timber.e("Invalid context!");
+            Timber.e("Expected: %s", classFullName);
+            Timber.e("Current: %s", context.getClass().getName());
+        }
+
+
     }
 
     /**
@@ -40,7 +50,7 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.i(TAG, "Http response status: " + String.valueOf(statusCode));
+       Timber.i("Http response status: " + String.valueOf(statusCode));
         if (baseActivity != null) {
             progressDialog.dismiss();
             baseActivity.showToast("SUCCESS");
@@ -57,7 +67,7 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        Log.i(TAG, "Http response status: " + String.valueOf(statusCode));
+        Timber.e("Http response status: " + String.valueOf(statusCode));
         if (baseActivity != null) {
             progressDialog.dismiss();
             baseActivity.showToast("FAILED");
