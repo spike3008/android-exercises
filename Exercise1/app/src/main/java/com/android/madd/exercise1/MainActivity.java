@@ -3,11 +3,13 @@ package com.android.madd.exercise1;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -17,6 +19,8 @@ import timber.log.Timber;
 public class MainActivity extends ActionBarActivity {
 
     private final String MOBICA_URL = "http://mobica.com";
+    @InjectView(R.id.main_editText_url)
+    EditText edtUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +31,13 @@ public class MainActivity extends ActionBarActivity {
             Timber.plant(new Timber.DebugTree());
         }
         Timber.tag(this.getClass().getName());
+        edtUrl.setText(MOBICA_URL);
     }
 
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(MOBICA_URL, new MobicaHttpResponseHandler(this));
+        client.get(edtUrl.getText().toString(), new MobicaHttpResponseHandler(this));
     }
 
     /**
