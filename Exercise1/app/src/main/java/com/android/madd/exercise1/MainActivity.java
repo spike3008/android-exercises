@@ -4,9 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.madd.exercise1.adapters.MyPerformanceArrayAdapter;
+import com.android.madd.exercise1.model.Site;
 import com.loopj.android.http.AsyncHttpClient;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,25 +24,30 @@ import timber.log.Timber;
 public class MainActivity extends ActionBarActivity {
 
     private final String MOBICA_URL = "http://mobica.com";
+    private ArrayList<Site> sites = new ArrayList<Site>();
+    private MyPerformanceArrayAdapter adapter;
     @InjectView(R.id.main_editText_url)
     EditText edtUrl;
+    @InjectView(R.id.listView)
+    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
+
         Timber.tag(this.getClass().getName());
         edtUrl.setText(MOBICA_URL);
+        adapter = new MyPerformanceArrayAdapter(this, sites);
+        list.setAdapter(adapter);
     }
 
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(edtUrl.getText().toString(), new MobicaHttpResponseHandler(this));
+        String uri = edtUrl.getText().toString();
+        client.get(uri, new MobicaHttpResponseHandler(this));
     }
 
     /**
@@ -52,6 +62,10 @@ public class MainActivity extends ActionBarActivity {
         toast.show();
         Timber.i("Toast with message '%s' shown", text);
     }
+
+    public void addResponse(Site site) {
+        sites.add(site);
+        adapter.notifyDataSetChanged();
+        Timber.i("Site '%s' added to list", site.getUrl());
+    }
 }
-
-

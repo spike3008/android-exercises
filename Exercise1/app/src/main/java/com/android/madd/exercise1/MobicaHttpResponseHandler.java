@@ -3,9 +3,11 @@ package com.android.madd.exercise1;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.android.madd.exercise1.model.Site;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.joda.time.DateTime;
 
 import timber.log.Timber;
 
@@ -13,16 +15,15 @@ import timber.log.Timber;
  * Created by madd on 2015-01-26.
  */
 class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
-
     private static MainActivity baseActivity;
-    private final String classFullName;
     private ProgressDialog progressDialog;
-
+    private String uri;
 
     public MobicaHttpResponseHandler(Context context) {
         baseActivity = null;
         Timber.tag(this.getClass().getName());
-        classFullName = "com.android.madd.exercise1.MainActivity";
+        String classFullName = "com.android.madd.exercise1.MainActivity";
+        uri = "unknown";
         if (classFullName.equals(context.getClass().getName())) {
             baseActivity = (MainActivity) context;
             progressDialog = new ProgressDialog(baseActivity);
@@ -37,8 +38,6 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
             Timber.e("Expected: %s", classFullName);
             Timber.e("Current: %s", context.getClass().getName());
         }
-
-
     }
 
     /**
@@ -50,10 +49,12 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-       Timber.i("Http response status: " + String.valueOf(statusCode));
+        Timber.i("Http response status: " + String.valueOf(statusCode));
         if (baseActivity != null) {
+            uri = this.getRequestURI().toString();
             progressDialog.dismiss();
             baseActivity.showToast("SUCCESS");
+            baseActivity.addResponse(new Site(uri, statusCode, DateTime.now()));
         }
     }
 
@@ -67,14 +68,12 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        Timber.e("Http response status: " + String.valueOf(statusCode));
+        Timber.i("Http response status: " + String.valueOf(statusCode));
         if (baseActivity != null) {
+            uri = this.getRequestURI().toString();
             progressDialog.dismiss();
             baseActivity.showToast("FAILED");
+            baseActivity.addResponse(new Site(uri, statusCode, DateTime.now()));
         }
     }
-
-
-
-
 }
