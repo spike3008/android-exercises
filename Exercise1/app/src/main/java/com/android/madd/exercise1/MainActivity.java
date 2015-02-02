@@ -21,7 +21,7 @@ import timber.log.Timber;
 /**
  * Created by madd on 2015-01-26.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements Respondent<Site> {
 
     private final String MOBICA_URL = "http://mobica.com";
     private ArrayList<Site> sites = new ArrayList<Site>();
@@ -36,8 +36,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
-        Timber.tag(this.getClass().getName());
         edtUrl.setText(MOBICA_URL);
         adapter = new MyPerformanceArrayAdapter(this, sites);
         list.setAdapter(adapter);
@@ -64,6 +62,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void addResponse(Site site) {
+        if (site.isSuccesful()) {
+            showToast("SUCCESS");
+        } else {
+            showToast("FAILED");
+        }
         sites.add(site);
         adapter.notifyDataSetChanged();
         Timber.i("Site '%s' added to list", site.getUrl());

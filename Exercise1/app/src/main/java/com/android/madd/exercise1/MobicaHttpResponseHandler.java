@@ -1,7 +1,6 @@
 package com.android.madd.exercise1;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 
 import com.android.madd.exercise1.model.Site;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -19,9 +18,8 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
     private ProgressDialog progressDialog;
     private String uri;
 
-    public MobicaHttpResponseHandler(Context context) {
+    public MobicaHttpResponseHandler(Respondent context) {
         baseActivity = null;
-        Timber.tag(this.getClass().getName());
         String classFullName = "com.android.madd.exercise1.MainActivity";
         uri = "unknown";
         if (classFullName.equals(context.getClass().getName())) {
@@ -53,7 +51,7 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
         if (baseActivity != null) {
             uri = this.getRequestURI().toString();
             progressDialog.dismiss();
-            baseActivity.showToast("SUCCESS");
+
             baseActivity.addResponse(new Site(uri, statusCode, DateTime.now()));
         }
     }
@@ -72,7 +70,6 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
         if (baseActivity != null) {
             uri = this.getRequestURI().toString();
             progressDialog.dismiss();
-            baseActivity.showToast("FAILED");
             baseActivity.addResponse(new Site(uri, statusCode, DateTime.now()));
         }
     }
