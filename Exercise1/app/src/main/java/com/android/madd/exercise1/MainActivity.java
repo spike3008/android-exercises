@@ -1,5 +1,6 @@
 package com.android.madd.exercise1;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
     EditText edtUrl;
     @InjectView(R.id.listView)
     ListView list;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,20 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
 
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
+        String url = edtUrl.getText().toString();
         AsyncHttpClient client = new AsyncHttpClient();
-        String uri = edtUrl.getText().toString();
-        client.get(uri, new MobicaHttpResponseHandler(this));
+        client.get(url, new MobicaHttpResponseHandler(this));
+    }
+
+    public ProgressDialog getProgressDialog() {
+        if (progressDialog==null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            final CharSequence message = getText(R.string.dialog_wait_message);
+            progressDialog.setMessage(message);
+            progressDialog.setIndeterminate(true);
+        }
+        return progressDialog;
     }
 
     /**
@@ -61,7 +74,8 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
         Timber.i("Toast with message '%s' shown", text);
     }
 
-    public void addResponse(Site site) {
+    public void addResponse(Site site){
+        getProgressDialog().dismiss();
         if (site.isSuccesful()) {
             showToast("SUCCESS");
         } else {
