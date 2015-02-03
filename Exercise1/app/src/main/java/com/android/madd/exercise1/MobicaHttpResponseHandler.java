@@ -1,6 +1,5 @@
 package com.android.madd.exercise1;
 
-import com.android.madd.exercise1.model.Site;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;

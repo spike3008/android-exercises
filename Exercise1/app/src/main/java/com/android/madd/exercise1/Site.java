@@ -1,4 +1,4 @@
-package com.android.madd.exercise1.model;
+package com.android.madd.exercise1;
 
 import org.joda.time.DateTime;
 
@@ -6,16 +6,26 @@ import org.joda.time.DateTime;
  * Created by madd on 2015-01-29.
  */
 public class Site {
+    private int id;
     private String url;
     private int status;
-    private boolean succesful;
     private DateTime timeStamp;
+
+    public Site() {
+    }
 
     public Site(String url, int status, DateTime timeStamp) {
         this.url = url;
         this.status = status;
         this.timeStamp = timeStamp;
-        this.succesful = status == 200;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUrl() {
@@ -35,11 +45,7 @@ public class Site {
     }
 
     public boolean isSuccesful() {
-        return succesful;
-    }
-
-    public void setSuccesful(boolean succesful) {
-        this.succesful = succesful;
+        return status==200;
     }
 
     public DateTime getTimeStamp() {

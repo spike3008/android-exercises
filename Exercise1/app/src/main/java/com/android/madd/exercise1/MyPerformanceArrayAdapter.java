@@ -1,4 +1,4 @@
-package com.android.madd.exercise1.adapters;
+package com.android.madd.exercise1;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.madd.exercise1.R;
-import com.android.madd.exercise1.model.Site;
 
 import java.util.ArrayList;
 
