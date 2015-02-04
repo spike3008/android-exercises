@@ -8,8 +8,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.madd.exercise1.adapters.MyPerformanceArrayAdapter;
-import com.android.madd.exercise1.model.Site;
 import com.loopj.android.http.AsyncHttpClient;
 
 import java.util.ArrayList;
@@ -32,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
     @InjectView(R.id.listView)
     ListView list;
     ProgressDialog progressDialog;
+    private MySitesDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         edtUrl.setText(MOBICA_URL);
+        dbHelper = new MySitesDatabaseHelper(this);
+        sites = dbHelper.getAllSites();
         adapter = new MyPerformanceArrayAdapter(this, sites);
         list.setAdapter(adapter);
     }
@@ -81,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
         } else {
             showToast("FAILED");
         }
+        dbHelper.insertSite(site);
         sites.add(site);
         adapter.notifyDataSetChanged();
         Timber.i("Site '%s' added to list", site.getUrl());
