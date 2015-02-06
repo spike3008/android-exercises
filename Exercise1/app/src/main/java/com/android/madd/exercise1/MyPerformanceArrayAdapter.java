@@ -17,12 +17,6 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
     private final Activity context;
     private final ArrayList<Site> sites;
 
-    static class ViewHolder {
-        public TextView text;
-        public TextView time;
-        public ImageView image;
-    }
-
     public MyPerformanceArrayAdapter(Activity context, ArrayList<Site> sites) {
         super(context, R.layout.rowlayout, sites);
         this.context = context;
@@ -50,5 +44,11 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
             holder.image.setImageResource(R.drawable.red_dot);
         }
         return rowView;
+    }
+
+    static class ViewHolder {
+        public TextView text;
+        public TextView time;
+        public ImageView image;
     }
 }

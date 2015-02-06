@@ -23,13 +23,13 @@ import timber.log.Timber;
 public class MainActivity extends ActionBarActivity implements Respondent<Site> {
 
     private final String MOBICA_URL = "http://mobica.com";
-    private ArrayList<Site> sites = new ArrayList<Site>();
-    private MyPerformanceArrayAdapter adapter;
     @InjectView(R.id.main_editText_url)
     EditText edtUrl;
     @InjectView(R.id.listView)
     ListView list;
     ProgressDialog progressDialog;
+    private ArrayList<Site> sites = new ArrayList<Site>();
+    private MyPerformanceArrayAdapter adapter;
     private MySitesDatabaseHelper dbHelper;
 
     @Override
@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
     }
 
     public ProgressDialog getProgressDialog() {
-        if (progressDialog==null) {
+        if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             final CharSequence message = getText(R.string.dialog_wait_message);
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
     /**
      * Prepares and shows a Toast with duration set to short.
      *
-     * @param text  message to be shown on Toast
+     * @param text message to be shown on a Toast
      */
     void showToast(String text) {
         Context context = getApplicationContext();
@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
         Timber.i("Toast with message '%s' shown", text);
     }
 
-    public void addResponse(Site site){
+    public void addResponse(Site site) {
         getProgressDialog().dismiss();
         if (site.isSuccesful()) {
             showToast("SUCCESS");

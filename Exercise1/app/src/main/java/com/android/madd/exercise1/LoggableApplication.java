@@ -9,12 +9,12 @@ import static timber.log.Timber.plant;
  * Created by madd on 2015-01-29.
  */
 public class LoggableApplication extends Application {
+
     @Override
-    public void onCreate () {
+    public void onCreate() {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             plant(new DebugTree());
         }
-
     }
 }

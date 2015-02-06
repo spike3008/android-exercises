@@ -45,7 +45,7 @@ public class Site {
     }
 
     public boolean isSuccesful() {
-        return status==200;
+        return status == 200;
     }
 
     public DateTime getTimeStamp() {

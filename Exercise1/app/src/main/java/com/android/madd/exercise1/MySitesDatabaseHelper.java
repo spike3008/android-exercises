@@ -27,7 +27,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     public static final String SITES_COL_STATUS = "status";
     public static final String SITES_COL_DATE = "date";
 
-    public MySitesDatabaseHelper(final Context context){
+    public MySitesDatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, 1, new DatabaseErrorHandler() {
             @Override
             public void onCorruption(SQLiteDatabase dbObj) {
@@ -52,7 +52,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertSite(Site site) {
-        Timber.i("Inserting site '%s' into '%s' table", site.getUrl(), SITES_TABLE_NAME );
+        Timber.i("Inserting site '%s' into '%s' table", site.getUrl(), SITES_TABLE_NAME);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SITES_COL_URL, site.getUrl());
@@ -62,21 +62,20 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getSite(int id){
+    public Cursor getSite(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query =  "select * from " + SITES_TABLE_NAME +
-                " where " + SITES_COL_ID + "="+id+"";
-        return db.rawQuery( query, null );
+        String query = "select * from " + SITES_TABLE_NAME +
+                " where " + SITES_COL_ID + "=" + id + "";
+        return db.rawQuery(query, null);
     }
 
-    public int getRowCount(){
+    public int getRowCount() {
         SQLiteDatabase db = this.getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(db, SITES_TABLE_NAME);
     }
 
-    public boolean updateSite (Site site)
-    {
-        if (site.getId()!=0) {
+    public boolean updateSite(Site site) {
+        if (site.getId() != 0) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(SITES_COL_ID, site.getId());
@@ -93,32 +92,31 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(SITES_TABLE_NAME,
                 SITES_COL_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Integer.toString(id)});
     }
 
     public Integer deleteSite(Site site) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(SITES_TABLE_NAME,
                 SITES_COL_ID + " = ? ",
-                new String[] { Integer.toString(site.getId()) });
+                new String[]{Integer.toString(site.getId())});
     }
 
-    public ArrayList<Site> getAllSites()
-    {
+    public ArrayList<Site> getAllSites() {
         ArrayList<Site> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + SITES_TABLE_NAME, null);
-        res.moveToFirst();
-        while(!res.isAfterLast()){
+        Cursor result = db.rawQuery("select * from " + SITES_TABLE_NAME, null);
+        result.moveToFirst();
+        while (!result.isAfterLast()) {
             Site site = new Site();
-            site.setId(res.getInt(res.getColumnIndex(SITES_COL_ID)));
-            site.setUrl(res.getString(res.getColumnIndex(SITES_COL_URL)));
-            site.setStatus(res.getInt(res.getColumnIndex(SITES_COL_STATUS)));
-            site.setTimeStamp(DateTime.parse(res.getString(res.getColumnIndex(SITES_COL_DATE))));
+            site.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
+            site.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
+            site.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
+            site.setTimeStamp(DateTime.parse(
+                    result.getString(result.getColumnIndex(SITES_COL_DATE))));
             list.add(site);
-            res.moveToNext();
+            result.moveToNext();
         }
         return list;
     }
-
 }
