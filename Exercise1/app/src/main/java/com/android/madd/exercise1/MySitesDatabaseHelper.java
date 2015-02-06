@@ -117,6 +117,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
             list.add(site);
             result.moveToNext();
         }
+        result.close();
         return list;
     }
 }
