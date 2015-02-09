@@ -20,12 +20,12 @@ import timber.log.Timber;
  */
 public class MySitesDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "MySites.db";
-    public static final String SITES_TABLE_NAME = "sites";
-    public static final String SITES_COL_ID = "id";
-    public static final String SITES_COL_URL = "url";
-    public static final String SITES_COL_STATUS = "status";
-    public static final String SITES_COL_DATE = "date";
+    private static final String DATABASE_NAME = "MySites.db";
+    private static final String SITES_TABLE_NAME = "sites";
+    private static final String SITES_COL_ID = "id";
+    private static final String SITES_COL_URL = "url";
+    private static final String SITES_COL_STATUS = "status";
+    private static final String SITES_COL_DATE = "date";
     private static final String SITES_COL_SUCCESSFUL = "successful";
 
     public MySitesDatabaseHelper(final Context context) {
