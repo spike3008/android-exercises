@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 
 /**
@@ -38,6 +41,9 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
         Site item = sites.get(super.getCount() - position - 1);
         holder.text.setText(item.getUrl());
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        final String date = formatter.print(item.getTimeStamp());
+        holder.time.setText(date);
         if (item.isSuccesful()) {
             holder.image.setImageResource(R.drawable.green_dot);
         } else {
@@ -46,9 +52,12 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
         return rowView;
     }
 
+
+
     static class ViewHolder {
         public TextView text;
         public TextView time;
         public ImageView image;
     }
+
 }

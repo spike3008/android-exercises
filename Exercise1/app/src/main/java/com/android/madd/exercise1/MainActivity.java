@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -20,7 +18,7 @@ import timber.log.Timber;
 /**
  * Created by madd on 2015-01-26.
  */
-public class MainActivity extends ActionBarActivity implements Respondent<Site> {
+public class MainActivity extends ActionBarActivity implements Respondent<Site>, UrlChecker {
 
     private final String MOBICA_URL = "http://mobica.com";
     @InjectView(R.id.main_editText_url)
@@ -28,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
     @InjectView(R.id.listView)
     ListView list;
     ProgressDialog progressDialog;
-    private ArrayList<Site> sites = new ArrayList<Site>();
+    private UniqueSitesList sites = new UniqueSitesList();
     private MyPerformanceArrayAdapter adapter;
     private MySitesDatabaseHelper dbHelper;
 
@@ -39,14 +37,19 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
         ButterKnife.inject(this);
         edtUrl.setText(MOBICA_URL);
         dbHelper = new MySitesDatabaseHelper(this);
-        sites = dbHelper.getAllSites();
+        sites = dbHelper.getNewestSites();
         adapter = new MyPerformanceArrayAdapter(this, sites);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new OnSiteClickListener(this));
     }
 
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
         String url = edtUrl.getText().toString();
+        checkUrl(url);
+    }
+
+    public void checkUrl(String url) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new MobicaHttpResponseHandler(this));
     }
@@ -83,7 +86,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site> 
             showToast("FAILED");
         }
         dbHelper.insertSite(site);
-        sites.add(site);
+        sites.replaceOlderRequests(site);
         adapter.notifyDataSetChanged();
         Timber.i("Site '%s' added to list", site.getUrl());
     }

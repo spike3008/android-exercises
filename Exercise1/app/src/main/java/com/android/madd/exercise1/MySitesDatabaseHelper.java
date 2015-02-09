@@ -26,6 +26,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     public static final String SITES_COL_URL = "url";
     public static final String SITES_COL_STATUS = "status";
     public static final String SITES_COL_DATE = "date";
+    private static final String SITES_COL_SUCCESSFUL = "successful";
 
     public MySitesDatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, 1, new DatabaseErrorHandler() {
@@ -43,7 +44,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "create table " + SITES_TABLE_NAME +
-                " (id integer primary key, url text, status integer, successful boolean, date text)";
+                " (id integer primary key, url text, status integer, successful boolean, date long)";
         db.execSQL(query);
     }
 
@@ -57,6 +58,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(SITES_COL_URL, site.getUrl());
         contentValues.put(SITES_COL_STATUS, site.getStatus());
+        contentValues.put(SITES_COL_SUCCESSFUL, site.isSuccesful());
         contentValues.put(SITES_COL_DATE, site.getTimeStamp().toString());
         db.insert(SITES_TABLE_NAME, null, contentValues);
         return true;
@@ -103,7 +105,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Site> getAllSites() {
-        ArrayList<Site> list = new ArrayList<>();
+        UniqueSitesList list = new UniqueSitesList();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + SITES_TABLE_NAME, null);
         result.moveToFirst();
@@ -120,4 +122,32 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         result.close();
         return list;
     }
+
+    public UniqueSitesList getNewestSites() {
+        UniqueSitesList list = new UniqueSitesList();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.query(
+            /* FROM */ SITES_TABLE_NAME,
+            /* SELECT */ new String[]{"*", "MAX(" + SITES_COL_DATE + ") AS " + SITES_COL_DATE},
+            /* WHERE */ null,
+            /* WHERE args */ null,
+            /* GROUP BY */ SITES_COL_URL + ", " + SITES_COL_STATUS,
+            /* HAVING */ null,
+            /* ORDER BY */ SITES_COL_DATE + " DESC"
+        );
+        result.moveToFirst();
+        while (!result.isAfterLast()) {
+            Site site = new Site();
+            site.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
+            site.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
+            site.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
+            site.setTimeStamp(DateTime.parse(
+                    result.getString(result.getColumnIndex(SITES_COL_DATE))));
+            list.add(site);
+            result.moveToNext();
+        }
+        result.close();
+        return list;
+    }
+
 }

@@ -55,4 +55,12 @@ public class Site {
     public void setTimeStamp(DateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+    public boolean hasEqualUrl(Site site) {
+        return this.getUrl().equals(site.getUrl());
+    }
+
+    public boolean isAfter(Site site) {
+        return this.getTimeStamp().isAfter(site.getTimeStamp());
+    }
 }
