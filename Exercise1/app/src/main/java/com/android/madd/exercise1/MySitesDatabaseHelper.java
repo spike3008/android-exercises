@@ -58,7 +58,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(SITES_COL_URL, site.getUrl());
         contentValues.put(SITES_COL_STATUS, site.getStatus());
-        contentValues.put(SITES_COL_SUCCESSFUL, site.isSuccesful());
+        contentValues.put(SITES_COL_SUCCESSFUL, site.isSuccessful());
         contentValues.put(SITES_COL_DATE, site.getTimeStamp().toString());
         db.insert(SITES_TABLE_NAME, null, contentValues);
         return true;

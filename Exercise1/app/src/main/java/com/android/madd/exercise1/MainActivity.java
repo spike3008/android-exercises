@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
 
     public void addResponse(Site site) {
         getProgressDialog().dismiss();
-        if (site.isSuccesful()) {
+        if (site.isSuccessful()) {
             showToast("SUCCESS");
         } else {
             showToast("FAILED");

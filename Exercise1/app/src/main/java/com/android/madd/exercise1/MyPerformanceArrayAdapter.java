@@ -43,7 +43,7 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         final String date = formatter.print(item.getTimeStamp());
         holder.time.setText(date);
-        if (item.isSuccesful()) {
+        if (item.isSuccessful()) {
             holder.image.setImageResource(R.drawable.green_dot);
         } else {
             holder.image.setImageResource(R.drawable.red_dot);

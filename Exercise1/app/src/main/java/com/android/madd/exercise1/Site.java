@@ -44,7 +44,7 @@ public class Site {
         this.status = status;
     }
 
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return status == 200;
     }
 
