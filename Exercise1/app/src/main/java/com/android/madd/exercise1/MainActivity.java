@@ -1,7 +1,6 @@
 package com.android.madd.exercise1;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.EditText;
@@ -24,7 +23,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
     @InjectView(R.id.main_editText_url)
     EditText edtUrl;
     @InjectView(R.id.listView)
-    ListView list;
+    ListView listView;
     ProgressDialog progressDialog;
     private UniqueSitesList sites = new UniqueSitesList();
     private MyPerformanceArrayAdapter adapter;
@@ -39,8 +38,8 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
         dbHelper = new MySitesDatabaseHelper(this);
         sites = dbHelper.getNewestSites();
         adapter = new MyPerformanceArrayAdapter(this, sites);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new OnSiteClickListener(this));
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new OnSiteClickListener(this));
     }
 
     @OnClick(R.id.btn_test)
@@ -49,6 +48,8 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
         checkUrl(url);
     }
 
+    //TODO: Add OnItemClick with ButterKnife Annotation
+
     public void checkUrl(String url) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new MobicaHttpResponseHandler(this));
@@ -56,13 +57,17 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
 
     public ProgressDialog getProgressDialog() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            final CharSequence message = getText(R.string.dialog_wait_message);
-            progressDialog.setMessage(message);
-            progressDialog.setIndeterminate(true);
+            createProgressDialog();
         }
         return progressDialog;
+    }
+
+    private void createProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        final CharSequence message = getText(R.string.dialog_wait_message);
+        progressDialog.setMessage(message);
+        progressDialog.setIndeterminate(true);
     }
 
     /**
@@ -71,10 +76,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
      * @param text message to be shown on a Toast
      */
     void showToast(String text) {
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
         Timber.i("Toast with message '%s' shown", text);
     }
 
