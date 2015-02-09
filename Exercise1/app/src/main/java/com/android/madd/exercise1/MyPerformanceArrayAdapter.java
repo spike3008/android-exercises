@@ -13,6 +13,9 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by madd on 2015-01-29.
  */
@@ -27,15 +30,11 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
+    public View getView(int position, View rowView, ViewGroup parent) {
         if (rowView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
-            rowView = inflater.inflate(R.layout.rowlayout, null);
-            ViewHolder viewHolder = new ViewHolder();
-            viewHolder.text = (TextView) rowView.findViewById(R.id.textView);
-            viewHolder.image = (ImageView) rowView.findViewById(R.id.imageView);
-            viewHolder.time = (TextView) rowView.findViewById(R.id.date_textView);
+            rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+            ViewHolder viewHolder = new ViewHolder(rowView);
             rowView.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
@@ -55,9 +54,16 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
 
 
     static class ViewHolder {
+        @InjectView(R.id.textView)
         public TextView text;
+        @InjectView(R.id.date_textView)
         public TextView time;
+        @InjectView(R.id.imageView)
         public ImageView image;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 
 }
