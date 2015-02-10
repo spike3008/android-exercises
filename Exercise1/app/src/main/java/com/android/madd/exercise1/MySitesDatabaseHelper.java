@@ -131,7 +131,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
             /* SELECT */ new String[]{"*", "MAX(" + SITES_COL_DATE + ") AS " + SITES_COL_DATE},
             /* WHERE */ null,
             /* WHERE args */ null,
-            /* GROUP BY */ SITES_COL_URL + ", " + SITES_COL_STATUS,
+            /* GROUP BY */ SITES_COL_URL,
             /* HAVING */ null,
             /* ORDER BY */ SITES_COL_DATE + " DESC"
         );
