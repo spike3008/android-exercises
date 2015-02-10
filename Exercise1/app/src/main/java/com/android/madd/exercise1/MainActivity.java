@@ -12,6 +12,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import timber.log.Timber;
 
 /**
@@ -39,7 +40,6 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
         sites = dbHelper.getNewestSites();
         adapter = new MyPerformanceArrayAdapter(this, sites);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnSiteClickListener(this));
     }
 
     @OnClick(R.id.btn_test)
@@ -48,7 +48,12 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
         checkUrl(url);
     }
 
-    //TODO: Add OnItemClick with ButterKnife Annotation
+    @OnItemClick(R.id.listView)
+    public void checkSiteAtPosition(int position) {
+        Timber.d("Clicked item at position: " + position);
+        Site site = adapter.getItem(position);
+        checkUrl(site.getUrl());
+    }
 
     public void checkUrl(String url) {
         AsyncHttpClient client = new AsyncHttpClient();
