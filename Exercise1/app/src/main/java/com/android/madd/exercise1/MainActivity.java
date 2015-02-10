@@ -27,8 +27,8 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
     ListView listView;
     ProgressDialog progressDialog;
     private UniqueSitesList sites = new UniqueSitesList();
-    private MyPerformanceArrayAdapter adapter;
     private MySitesDatabaseHelper dbHelper;
+    private SitesBindableAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements Respondent<Site>,
         edtUrl.setText(MOBICA_URL);
         dbHelper = new MySitesDatabaseHelper(this);
         sites = dbHelper.getNewestSites();
-        adapter = new MyPerformanceArrayAdapter(this, sites);
+        adapter = new SitesBindableAdapter(this, sites);
         listView.setAdapter(adapter);
     }
 

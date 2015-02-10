@@ -22,8 +22,7 @@ public class UniqueSitesList extends ArrayList<Site> {
         if (!sameFound) {
             this.add(site);
         }
-        Collections.sort(this, new DateComparator());
-        Collections.reverse(this);
+        Collections.sort(this, Collections.reverseOrder(new DateComparator()));
     }
 
 

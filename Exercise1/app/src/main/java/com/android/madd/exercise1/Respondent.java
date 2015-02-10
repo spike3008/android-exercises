@@ -8,5 +8,6 @@ import android.app.ProgressDialog;
 public interface Respondent<T> {
 
     void addResponse(T item);
+
     ProgressDialog getProgressDialog();
 }
