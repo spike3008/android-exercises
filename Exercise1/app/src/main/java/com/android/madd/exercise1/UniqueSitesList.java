@@ -23,6 +23,7 @@ public class UniqueSitesList extends ArrayList<Site> {
             this.add(site);
         }
         Collections.sort(this, new DateComparator());
+        Collections.reverse(this);
     }
 
 

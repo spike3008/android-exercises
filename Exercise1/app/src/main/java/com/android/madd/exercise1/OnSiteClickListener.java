@@ -19,7 +19,7 @@ public class OnSiteClickListener implements AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Timber.d("Clicked item at position: " + position);
-        Site site = (Site) parent.getItemAtPosition(parent.getCount() - position - 1);
+        Site site = (Site) parent.getItemAtPosition(position);
         checker.checkUrl(site.getUrl());
     }
 }

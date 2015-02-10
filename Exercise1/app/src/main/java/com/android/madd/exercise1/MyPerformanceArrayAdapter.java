@@ -38,7 +38,7 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
             rowView.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        Site item = sites.get(super.getCount() - position - 1);
+        Site item = sites.get(position);
         holder.text.setText(item.getUrl());
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         final String date = formatter.print(item.getTimeStamp());
@@ -50,8 +50,6 @@ public class MyPerformanceArrayAdapter extends ArrayAdapter<Site> {
         }
         return rowView;
     }
-
-
 
     static class ViewHolder {
         @InjectView(R.id.textView)
