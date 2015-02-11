@@ -20,7 +20,6 @@ import timber.log.Timber;
 public abstract class MainFragment extends Fragment implements Respondent<Site>, UrlChecker {
 
     ProgressDialog progressDialog;
-
     protected Context context;
 
     @Override
