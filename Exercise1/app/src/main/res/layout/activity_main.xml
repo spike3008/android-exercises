@@ -8,43 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:orientation="vertical"-->
-        <!--android:weightSum="1">-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/main_editText_url"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:singleLine="true"-->
-            <!--android:inputType="textUri" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/btn_test"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_below="@+id/main_editText_url"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="@string/btn_test_label" />-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/listView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:stackFromBottom="false"-->
-            <!--android:transcriptMode="normal" />-->
-
-    <!--</LinearLayout>-->
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,4 +19,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:name="com.android.madd.exercise1.TestingFragment" />
+
 </RelativeLayout>
