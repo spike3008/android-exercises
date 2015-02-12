@@ -55,7 +55,7 @@ public class SitesBindableAdapter extends BindableAdapter<Site> {
     static class SiteViewHolder {
         @InjectView(R.id.textView) TextView text;
         @InjectView(R.id.date_textView) TextView time;
-        @InjectView(R.id.imageView) ImageView image;
+        @InjectView(R.id.imageView)  ImageView image;
         DateTimeFormatter formatter;
 
         public SiteViewHolder(View view, DateTimeFormatter formatter) {

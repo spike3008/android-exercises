@@ -48,7 +48,7 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
             Site site = adapter.getItem(position);
             checkUrl(site.getUrl());
         } else {
-            showToast("Internet connection is required.");
+            showToast("Internet connection is required");
         }
     }
 

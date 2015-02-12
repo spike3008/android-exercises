@@ -12,7 +12,7 @@ public class ConnectionDetector {
         this.context = context;
     }
 
-    public boolean isOnline() {
+    public static boolean isNetworkAvailable(Context context) {
         if (context == null)
             return false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -23,7 +23,7 @@ public class ConnectionDetector {
         return false;
     }
 
-    public static boolean isNetworkAvailable(Context context) {
+    public boolean isOnline() {
         if (context == null)
             return false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

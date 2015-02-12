@@ -16,9 +16,9 @@ import timber.log.Timber;
 
 public abstract class MainFragment extends Fragment implements Respondent<Site>, UrlChecker {
 
-    ProgressDialog progressDialog;
     protected Context context;
     protected boolean online = false;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
