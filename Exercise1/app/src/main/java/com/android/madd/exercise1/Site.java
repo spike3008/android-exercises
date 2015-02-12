@@ -2,9 +2,6 @@ package com.android.madd.exercise1;
 
 import org.joda.time.DateTime;
 
-/**
- * Created by madd on 2015-01-29.
- */
 public class Site {
     private int id;
     private String url;

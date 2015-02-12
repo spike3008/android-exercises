@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-/**
- * Created by madd on 2015-02-10.
- */
 public abstract class BindableAdapter<T> extends BaseAdapter {
     private final Context context;
     private final LayoutInflater inflater;
@@ -16,10 +13,6 @@ public abstract class BindableAdapter<T> extends BaseAdapter {
     public BindableAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     @Override

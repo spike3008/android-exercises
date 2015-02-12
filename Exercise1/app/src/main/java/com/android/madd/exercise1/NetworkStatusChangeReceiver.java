@@ -4,9 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * Created by madd on 2015-02-11.
- */
 public class NetworkStatusChangeReceiver extends BroadcastReceiver {
 
     NetworkStatusHandler handler;

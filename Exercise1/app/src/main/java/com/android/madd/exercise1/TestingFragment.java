@@ -3,9 +3,7 @@ package com.android.madd.exercise1;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,20 +16,12 @@ import timber.log.Timber;
 public class TestingFragment extends MainFragment implements NetworkStatusHandler {
 
     private final String MOBICA_URL = "http://mobica.com";
-    @InjectView(R.id.listView)
-    ListView listView;
-    @InjectView(R.id.main_editText_url)
-    TextView edtUrl;
-    @InjectView(R.id.btn_test)
-    Button btnTest;
+    @InjectView(R.id.listView) ListView listView;
+    @InjectView(R.id.main_editText_url) TextView edtUrl;
+    @InjectView(R.id.btn_test) Button btnTest;
     private UniqueSitesList sites = new UniqueSitesList();
     private MySitesDatabaseHelper dbHelper;
     private SitesBindableAdapter adapter;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

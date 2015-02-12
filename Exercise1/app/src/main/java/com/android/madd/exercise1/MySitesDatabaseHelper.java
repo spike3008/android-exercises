@@ -15,9 +15,6 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-/**
- * Created by madd on 2015-01-30.
- */
 public class MySitesDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "MySites.db";
@@ -52,7 +49,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public boolean insertSite(Site site) {
+    public void insertSite(Site site) {
         Timber.i("Inserting site '%s' into '%s' table", site.getUrl(), SITES_TABLE_NAME);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -61,7 +58,6 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SITES_COL_SUCCESSFUL, site.isSuccessful());
         contentValues.put(SITES_COL_DATE, site.getTimeStamp().toString());
         db.insert(SITES_TABLE_NAME, null, contentValues);
-        return true;
     }
 
     public Cursor getSite(int id) {

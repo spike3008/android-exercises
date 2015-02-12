@@ -7,14 +7,11 @@ import org.joda.time.DateTime;
 
 import timber.log.Timber;
 
-/**
- * Created by madd on 2015-01-26.
- */
 class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
     private static Respondent<Site> respondent;
     private String uri;
 
-    public MobicaHttpResponseHandler(Respondent context) {
+    public MobicaHttpResponseHandler(Respondent<Site> context) {
         uri = "unknown";
         respondent = context;
         respondent.getProgressDialog().show();

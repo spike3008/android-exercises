@@ -14,9 +14,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-/**
- * Created by madd on 2015-02-11.
- */
 public abstract class MainFragment extends Fragment implements Respondent<Site>, UrlChecker {
 
     ProgressDialog progressDialog;
@@ -29,11 +26,6 @@ public abstract class MainFragment extends Fragment implements Respondent<Site>,
         ButterKnife.inject(this, view);
         context = view.getContext();
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

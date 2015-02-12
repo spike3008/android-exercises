@@ -3,9 +3,6 @@ package com.android.madd.exercise1;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by madd on 2015-02-06.
- */
 public class UniqueSitesList extends ArrayList<Site> {
 
     public void replaceOlderRequests(Site site) {
