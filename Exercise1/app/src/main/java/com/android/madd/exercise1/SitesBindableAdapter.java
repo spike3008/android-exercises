@@ -15,17 +15,14 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by madd on 2015-02-10.
- */
 public class SitesBindableAdapter extends BindableAdapter<Site> {
     private ArrayList<Site> sitesRows;
-    private LayoutInflater inflater;
+    private DateTimeFormatter formatter;
 
     public SitesBindableAdapter(Context context, ArrayList<Site> sitesRows) {
         super(context);
         this.sitesRows = sitesRows;
-        inflater = LayoutInflater.from(context);
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
@@ -45,18 +42,14 @@ public class SitesBindableAdapter extends BindableAdapter<Site> {
 
     @Override
     public View newView(LayoutInflater inflater, int position, ViewGroup container) {
-        return inflater.inflate(R.layout.rowlayout, container, false);
+        View view = inflater.inflate(R.layout.rowlayout, container, false);
+        view.setTag(new SiteViewHolder(view, formatter));
+        return view;
     }
 
     @Override
     public void bindView(Site item, int position, View rowView) {
-        SiteViewHolder holder;
-        holder = new SiteViewHolder(rowView);
-        holder.text.setText(item.getUrl());
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        final String date = formatter.print(item.getTimeStamp());
-        holder.time.setText(date);
-        holder.image.setImageResource(item.isSuccessful()?R.drawable.green_dot:R.drawable.red_dot);
+        ((SiteViewHolder) rowView.getTag()).bind(item);
     }
 
     static class SiteViewHolder {
@@ -66,10 +59,17 @@ public class SitesBindableAdapter extends BindableAdapter<Site> {
         TextView time;
         @InjectView(R.id.imageView)
         ImageView image;
+        DateTimeFormatter formatter;
 
-        public SiteViewHolder(View view) {
+        public SiteViewHolder(View view, DateTimeFormatter formatter) {
             ButterKnife.inject(this, view);
-            view.setTag(this);
+            this.formatter = formatter;
+        }
+
+        public void bind(Site item) {
+            this.text.setText(item.getUrl());
+            this.time.setText(formatter.print(item.getTimeStamp()));
+            this.image.setImageResource(item.isSuccessful() ? R.drawable.green_dot : R.drawable.red_dot);
         }
     }
 }
