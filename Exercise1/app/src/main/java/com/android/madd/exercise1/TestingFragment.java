@@ -1,9 +1,12 @@
 package com.android.madd.exercise1;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,13 +15,15 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import timber.log.Timber;
 
-public class TestingFragment extends MainFragment {
+public class TestingFragment extends MainFragment implements NetworkStatusHandler {
 
     private final String MOBICA_URL = "http://mobica.com";
     @InjectView(R.id.listView)
     ListView listView;
     @InjectView(R.id.main_editText_url)
     TextView edtUrl;
+    @InjectView(R.id.btn_test)
+    Button btnTest;
     private UniqueSitesList sites = new UniqueSitesList();
     private MySitesDatabaseHelper dbHelper;
     private SitesBindableAdapter adapter;
@@ -31,17 +36,17 @@ public class TestingFragment extends MainFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Timber.i("TestingFragment created.");
         edtUrl.setText(MOBICA_URL);
         dbHelper = new MySitesDatabaseHelper(context);
         sites = dbHelper.getNewestSites();
         adapter = new SitesBindableAdapter(context, sites);
         listView.setAdapter(adapter);
+        NetworkStatusChangeReceiver receiver = new NetworkStatusChangeReceiver(this);
+        context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
-        Timber.i("Button Clicked");
         String url = edtUrl.getText().toString();
         checkUrl(url);
     }
@@ -49,8 +54,12 @@ public class TestingFragment extends MainFragment {
     @OnItemClick(R.id.listView)
     public void checkSiteAtPosition(int position) {
         Timber.d("Clicked item at position: " + position);
-        Site site = adapter.getItem(position);
-        checkUrl(site.getUrl());
+        if (online) {
+            Site site = adapter.getItem(position);
+            checkUrl(site.getUrl());
+        } else {
+            showToast("Internet connection is required.");
+        }
     }
 
     @Override
@@ -66,5 +75,11 @@ public class TestingFragment extends MainFragment {
         Timber.i("Site '%s' added to list", site.getUrl());
     }
 
-
+    @Override
+    public void handleNetworkStatus(boolean isOnline) {
+        String status = isOnline ? "ONLINE" : "OFFLINE";
+        Timber.i("Connection state changed to: " + status);
+        this.online = isOnline;
+        btnTest.setEnabled(isOnline);
+    }
 }

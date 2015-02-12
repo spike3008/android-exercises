@@ -21,6 +21,7 @@ public abstract class MainFragment extends Fragment implements Respondent<Site>,
 
     ProgressDialog progressDialog;
     protected Context context;
+    protected boolean online = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +34,6 @@ public abstract class MainFragment extends Fragment implements Respondent<Site>,
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
