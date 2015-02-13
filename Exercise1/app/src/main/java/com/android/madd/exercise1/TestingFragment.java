@@ -11,6 +11,7 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.OnItemLongClick;
 import timber.log.Timber;
 
 public class TestingFragment extends MainFragment implements NetworkStatusHandler {
@@ -35,6 +36,7 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
         context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
+
     @OnClick(R.id.btn_test)
     public void onButtonClicked() {
         String url = edtUrl.getText().toString();
@@ -48,8 +50,19 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
             Site site = adapter.getItem(position);
             checkUrl(site.getUrl());
         } else {
-            showToast("Internet connection is required");
+            showToast(context.getString(R.string.no_internet_connection));
         }
+    }
+
+    @OnItemLongClick(R.id.listView)
+    public boolean loadDetailedListForPosition(int position) {
+        if (online) {
+            showToast("Not implemented yet");
+        } else {
+            showToast(context.getString(R.string.no_internet_connection));
+            return false;
+        }
+        return true;
     }
 
     @Override
