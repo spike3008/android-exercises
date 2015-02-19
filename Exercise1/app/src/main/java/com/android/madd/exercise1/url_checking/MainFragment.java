@@ -14,7 +14,6 @@ import com.android.madd.exercise1.model.UrlHistoryItem;
 import com.loopj.android.http.AsyncHttpClient;
 
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public abstract class MainFragment extends Fragment implements Respondent<UrlHistoryItem>, UrlChecker {
 
@@ -53,7 +52,6 @@ public abstract class MainFragment extends Fragment implements Respondent<UrlHis
 
     void showToast(String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-        Timber.i("Toast with message '%s' shown", text);
     }
 
     public ProgressDialog getProgressDialog() {

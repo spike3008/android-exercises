@@ -30,6 +30,7 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
     private UniqueItemsList items = new UniqueItemsList();
     private HistoryDatabaseHelper dbHelper;
     private SitesAdapter adapter;
+    private NetworkStatusChangeReceiver broadcastReceiver;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -39,8 +40,8 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
         items = dbHelper.getNewestSites();
         adapter = new SitesAdapter(context, items);
         listView.setAdapter(adapter);
-        NetworkStatusChangeReceiver receiver = new NetworkStatusChangeReceiver(this);
-        context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        broadcastReceiver = new NetworkStatusChangeReceiver(this);
+        context.registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @OnClick(R.id.btn_test)
@@ -79,5 +80,17 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
         Timber.i("Connection state changed to: " + status);
         this.online = isOnline;
         btnTest.setEnabled(isOnline);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        context.registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onPause() {
+        context.unregisterReceiver(broadcastReceiver);
+        super.onPause();
     }
 }
