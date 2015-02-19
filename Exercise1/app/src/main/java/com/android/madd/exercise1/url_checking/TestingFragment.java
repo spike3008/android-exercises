@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.android.madd.exercise1.model.MySitesDatabaseHelper;
 import com.android.madd.exercise1.R;
 import com.android.madd.exercise1.model.Site;
-import com.android.madd.exercise1.model.SitesBindableAdapter;
+import com.android.madd.exercise1.model.SitesAdapter;
 import com.android.madd.exercise1.model.UniqueSitesList;
 import com.android.madd.exercise1.network.NetworkStatusChangeReceiver;
 import com.android.madd.exercise1.network.NetworkStatusHandler;
@@ -29,7 +29,7 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
     @InjectView(R.id.btn_test) Button btnTest;
     private UniqueSitesList sites = new UniqueSitesList();
     private MySitesDatabaseHelper dbHelper;
-    private SitesBindableAdapter adapter;
+    private SitesAdapter adapter;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
         edtUrl.setText(MOBICA_URL);
         dbHelper = new MySitesDatabaseHelper(context);
         sites = dbHelper.getNewestSites();
-        adapter = new SitesBindableAdapter(context, sites);
+        adapter = new SitesAdapter(context, sites);
         listView.setAdapter(adapter);
         NetworkStatusChangeReceiver receiver = new NetworkStatusChangeReceiver(this);
         context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));

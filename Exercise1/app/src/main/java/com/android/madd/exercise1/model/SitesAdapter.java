@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SitesBindableAdapter extends BindableAdapter<Site> {
+public class SitesAdapter extends BindableAdapter<Site> {
     private ArrayList<Site> sitesRows;
     private DateTimeFormatter formatter;
 
-    public SitesBindableAdapter(Context context, ArrayList<Site> sitesRows) {
+    public SitesAdapter(Context context, ArrayList<Site> sitesRows) {
         super(context);
         this.sitesRows = sitesRows;
         formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
