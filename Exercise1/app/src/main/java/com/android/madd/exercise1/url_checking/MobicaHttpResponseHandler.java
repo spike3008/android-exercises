@@ -27,11 +27,8 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Timber.i("Http response status: " + String.valueOf(statusCode));
-        if (respondent != null) {
-            uri = this.getRequestURI().toString();
-            respondent.addResponse(new Site(uri, statusCode, DateTime.now()));
-        }
+        passUrlStatus(statusCode);
+
     }
 
     /**
@@ -44,10 +41,12 @@ class MobicaHttpResponseHandler extends AsyncHttpResponseHandler {
      */
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+        passUrlStatus(statusCode);
+    }
+
+    public void passUrlStatus(int statusCode) {
         Timber.i("Http response status: " + String.valueOf(statusCode));
-        if (respondent != null) {
-            uri = this.getRequestURI().toString();
-            respondent.addResponse(new Site(uri, statusCode, DateTime.now()));
-        }
+        uri = getRequestURI().toString();
+        respondent.addResponse(new Site(uri, statusCode, DateTime.now()));
     }
 }
