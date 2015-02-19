@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.madd.exercise1.R;
-import com.android.madd.exercise1.model.Site;
+import com.android.madd.exercise1.model.UrlHistoryItem;
 import com.loopj.android.http.AsyncHttpClient;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public abstract class MainFragment extends Fragment implements Respondent<Site>, UrlChecker {
+public abstract class MainFragment extends Fragment implements Respondent<UrlHistoryItem>, UrlChecker {
 
     protected Context context;
     protected boolean online = false;
@@ -38,13 +38,13 @@ public abstract class MainFragment extends Fragment implements Respondent<Site>,
 
     public void checkUrl(String url) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new MobicaHttpResponseHandler(this));
+        client.get(url, new HttpResponseHandler(this));
     }
 
     @Override
-    public void addResponse(Site site) {
+    public void addResponse(UrlHistoryItem urlHistoryItem) {
         getProgressDialog().dismiss();
-        if (site.isSuccessful()) {
+        if (urlHistoryItem.isSuccessful()) {
             showToast("SUCCESS");
         } else {
             showToast("FAILED");

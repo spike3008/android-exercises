@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SitesAdapter extends BindableAdapter<Site> {
-    private ArrayList<Site> sitesRows;
+public class SitesAdapter extends BindableAdapter<UrlHistoryItem> {
+    private ArrayList<UrlHistoryItem> sitesRows;
     private DateTimeFormatter formatter;
 
-    public SitesAdapter(Context context, ArrayList<Site> sitesRows) {
+    public SitesAdapter(Context context, ArrayList<UrlHistoryItem> sitesRows) {
         super(context);
         this.sitesRows = sitesRows;
         formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
@@ -33,7 +33,7 @@ public class SitesAdapter extends BindableAdapter<Site> {
     }
 
     @Override
-    public Site getItem(int position) {
+    public UrlHistoryItem getItem(int position) {
         return sitesRows.get(position);
     }
 
@@ -50,7 +50,7 @@ public class SitesAdapter extends BindableAdapter<Site> {
     }
 
     @Override
-    public void bindView(Site item, int position, View rowView) {
+    public void bindView(UrlHistoryItem item, int position, View rowView) {
         ((SiteViewHolder) rowView.getTag()).bind(item);
     }
 
@@ -65,7 +65,7 @@ public class SitesAdapter extends BindableAdapter<Site> {
             this.formatter = formatter;
         }
 
-        public void bind(Site item) {
+        public void bind(UrlHistoryItem item) {
             this.text.setText(item.getUrl());
             this.time.setText(formatter.print(item.getTimeStamp()));
             this.image.setImageResource(item.isSuccessful() ? R.drawable.green_dot : R.drawable.red_dot);

@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.madd.exercise1.model.MySitesDatabaseHelper;
+import com.android.madd.exercise1.model.HistoryDatabaseHelper;
 import com.android.madd.exercise1.R;
-import com.android.madd.exercise1.model.Site;
+import com.android.madd.exercise1.model.UniqueItemsList;
+import com.android.madd.exercise1.model.UrlHistoryItem;
 import com.android.madd.exercise1.model.SitesAdapter;
-import com.android.madd.exercise1.model.UniqueSitesList;
 import com.android.madd.exercise1.network.NetworkStatusChangeReceiver;
 import com.android.madd.exercise1.network.NetworkStatusHandler;
 
@@ -27,17 +27,17 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
     @InjectView(R.id.listView) ListView listView;
     @InjectView(R.id.main_editText_url) TextView edtUrl;
     @InjectView(R.id.btn_test) Button btnTest;
-    private UniqueSitesList sites = new UniqueSitesList();
-    private MySitesDatabaseHelper dbHelper;
+    private UniqueItemsList items = new UniqueItemsList();
+    private HistoryDatabaseHelper dbHelper;
     private SitesAdapter adapter;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         edtUrl.setText(MOBICA_URL);
-        dbHelper = new MySitesDatabaseHelper(context);
-        sites = dbHelper.getNewestSites();
-        adapter = new SitesAdapter(context, sites);
+        dbHelper = new HistoryDatabaseHelper(context);
+        items = dbHelper.getNewestSites();
+        adapter = new SitesAdapter(context, items);
         listView.setAdapter(adapter);
         NetworkStatusChangeReceiver receiver = new NetworkStatusChangeReceiver(this);
         context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -50,27 +50,27 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
     }
 
     @OnItemClick(R.id.listView)
-    public void checkSiteAtPosition(int position) {
+    public void checkItemAtPosition(int position) {
         Timber.d("Clicked item at position: " + position);
         if (online) {
-            Site site = adapter.getItem(position);
-            checkUrl(site.getUrl());
+            UrlHistoryItem urlHistoryItem = adapter.getItem(position);
+            checkUrl(urlHistoryItem.getUrl());
         } else {
             showToast("Internet connection is required");
         }
     }
 
     @Override
-    public void addResponse(Site site) {
-        super.addResponse(site);
-        store(site);
+    public void addResponse(UrlHistoryItem urlHistoryItem) {
+        super.addResponse(urlHistoryItem);
+        store(urlHistoryItem);
     }
 
-    protected void store(Site site) {
-        dbHelper.insertSite(site);
-        sites.replaceOlderRequests(site);
+    protected void store(UrlHistoryItem urlHistoryItem) {
+        dbHelper.insertSite(urlHistoryItem);
+        items.replaceOlderRequests(urlHistoryItem);
         adapter.notifyDataSetChanged();
-        Timber.i("Site '%s' added to list", site.getUrl());
+        Timber.i("Site '%s' added to list", urlHistoryItem.getUrl());
     }
 
     @Override

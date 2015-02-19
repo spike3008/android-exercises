@@ -2,16 +2,16 @@ package com.android.madd.exercise1.model;
 
 import org.joda.time.DateTime;
 
-public class Site {
+public class UrlHistoryItem {
     private int id;
     private String url;
     private int status;
     private DateTime timeStamp;
 
-    public Site() {
+    public UrlHistoryItem() {
     }
 
-    public Site(String url, int status, DateTime timeStamp) {
+    public UrlHistoryItem(String url, int status, DateTime timeStamp) {
         this.url = url;
         this.status = status;
         this.timeStamp = timeStamp;
@@ -53,11 +53,11 @@ public class Site {
         this.timeStamp = timeStamp;
     }
 
-    public boolean hasEqualUrl(Site site) {
-        return this.getUrl().equals(site.getUrl());
+    public boolean hasEqualUrl(UrlHistoryItem urlHistoryItem) {
+        return this.getUrl().equals(urlHistoryItem.getUrl());
     }
 
-    public boolean isAfter(Site site) {
-        return this.getTimeStamp().isAfter(site.getTimeStamp());
+    public boolean isAfter(UrlHistoryItem urlHistoryItem) {
+        return this.getTimeStamp().isAfter(urlHistoryItem.getTimeStamp());
     }
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class MySitesDatabaseHelper extends SQLiteOpenHelper {
+public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "MySites.db";
     private static final String SITES_TABLE_NAME = "sites";
@@ -27,7 +27,7 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     private static final String SITES_COL_DATE = "date";
     private static final String SITES_COL_SUCCESSFUL = "successful";
 
-    public MySitesDatabaseHelper(final Context context) {
+    public HistoryDatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, 1, new DatabaseErrorHandler() {
             @Override
             public void onCorruption(SQLiteDatabase dbObj) {
@@ -51,14 +51,14 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void insertSite(Site site) {
-        Timber.i("Inserting site '%s' into '%s' table", site.getUrl(), SITES_TABLE_NAME);
+    public void insertSite(UrlHistoryItem urlHistoryItem) {
+        Timber.i("Inserting site '%s' into '%s' table", urlHistoryItem.getUrl(), SITES_TABLE_NAME);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SITES_COL_URL, site.getUrl());
-        contentValues.put(SITES_COL_STATUS, site.getStatus());
-        contentValues.put(SITES_COL_SUCCESSFUL, site.isSuccessful());
-        contentValues.put(SITES_COL_DATE, site.getTimeStamp().toString());
+        contentValues.put(SITES_COL_URL, urlHistoryItem.getUrl());
+        contentValues.put(SITES_COL_STATUS, urlHistoryItem.getStatus());
+        contentValues.put(SITES_COL_SUCCESSFUL, urlHistoryItem.isSuccessful());
+        contentValues.put(SITES_COL_DATE, urlHistoryItem.getTimeStamp().toString());
         db.insert(SITES_TABLE_NAME, null, contentValues);
     }
 
@@ -74,15 +74,15 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(db, SITES_TABLE_NAME);
     }
 
-    public boolean updateSite(Site site) {
-        if (site.getId() != 0) {
+    public boolean updateSite(UrlHistoryItem urlHistoryItem) {
+        if (urlHistoryItem.getId() != 0) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
-            contentValues.put(SITES_COL_ID, site.getId());
-            contentValues.put(SITES_COL_URL, site.getUrl());
-            contentValues.put(SITES_COL_STATUS, site.getStatus());
-            contentValues.put(SITES_COL_DATE, site.getTimeStamp().toString());
-            db.update(SITES_TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(site.getId())});
+            contentValues.put(SITES_COL_ID, urlHistoryItem.getId());
+            contentValues.put(SITES_COL_URL, urlHistoryItem.getUrl());
+            contentValues.put(SITES_COL_STATUS, urlHistoryItem.getStatus());
+            contentValues.put(SITES_COL_DATE, urlHistoryItem.getTimeStamp().toString());
+            db.update(SITES_TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(urlHistoryItem.getId())});
             return true;
         }
         return false;
@@ -95,34 +95,34 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{Integer.toString(id)});
     }
 
-    public Integer deleteSite(Site site) {
+    public Integer deleteSite(UrlHistoryItem urlHistoryItem) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(SITES_TABLE_NAME,
                 SITES_COL_ID + " = ? ",
-                new String[]{Integer.toString(site.getId())});
+                new String[]{Integer.toString(urlHistoryItem.getId())});
     }
 
-    public ArrayList<Site> getAllSites() {
-        UniqueSitesList list = new UniqueSitesList();
+    public ArrayList<UrlHistoryItem> getAllSites() {
+        UniqueItemsList list = new UniqueItemsList();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + SITES_TABLE_NAME, null);
         result.moveToFirst();
         while (!result.isAfterLast()) {
-            Site site = new Site();
-            site.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
-            site.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
-            site.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
-            site.setTimeStamp(DateTime.parse(
+            UrlHistoryItem urlHistoryItem = new UrlHistoryItem();
+            urlHistoryItem.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
+            urlHistoryItem.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
+            urlHistoryItem.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
+            urlHistoryItem.setTimeStamp(DateTime.parse(
                     result.getString(result.getColumnIndex(SITES_COL_DATE))));
-            list.add(site);
+            list.add(urlHistoryItem);
             result.moveToNext();
         }
         result.close();
         return list;
     }
 
-    public UniqueSitesList getNewestSites() {
-        UniqueSitesList list = new UniqueSitesList();
+    public UniqueItemsList getNewestSites() {
+        UniqueItemsList list = new UniqueItemsList();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.query(
             /* FROM */ SITES_TABLE_NAME,
@@ -135,13 +135,13 @@ public class MySitesDatabaseHelper extends SQLiteOpenHelper {
         );
         result.moveToFirst();
         while (!result.isAfterLast()) {
-            Site site = new Site();
-            site.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
-            site.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
-            site.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
-            site.setTimeStamp(DateTime.parse(
+            UrlHistoryItem urlHistoryItem = new UrlHistoryItem();
+            urlHistoryItem.setId(result.getInt(result.getColumnIndex(SITES_COL_ID)));
+            urlHistoryItem.setUrl(result.getString(result.getColumnIndex(SITES_COL_URL)));
+            urlHistoryItem.setStatus(result.getInt(result.getColumnIndex(SITES_COL_STATUS)));
+            urlHistoryItem.setTimeStamp(DateTime.parse(
                     result.getString(result.getColumnIndex(SITES_COL_DATE))));
-            list.add(site);
+            list.add(urlHistoryItem);
             result.moveToNext();
         }
         result.close();
