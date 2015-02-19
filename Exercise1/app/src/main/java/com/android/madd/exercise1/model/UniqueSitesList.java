@@ -1,4 +1,4 @@
-package com.android.madd.exercise1;
+package com.android.madd.exercise1.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

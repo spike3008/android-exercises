@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.android.madd.exercise1.TestingFragment"
+        android:name="com.android.madd.exercise1.url_checking.TestingFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

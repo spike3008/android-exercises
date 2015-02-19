@@ -1,4 +1,4 @@
-package com.android.madd.exercise1;
+package com.android.madd.exercise1.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.android.madd.exercise1;
+package com.android.madd.exercise1.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

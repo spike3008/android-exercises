@@ -1,4 +1,4 @@
-package com.android.madd.exercise1;
+package com.android.madd.exercise1.url_checking;
 
 import android.app.ProgressDialog;
 
