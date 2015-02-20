@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.madd.exercise1.model.HistoryDatabaseHelper;
 import com.android.madd.exercise1.R;
+import com.android.madd.exercise1.model.HistoryDatabaseHelper;
+import com.android.madd.exercise1.model.SitesAdapter;
 import com.android.madd.exercise1.model.UniqueItemsList;
 import com.android.madd.exercise1.model.UrlHistoryItem;
-import com.android.madd.exercise1.model.SitesAdapter;
 import com.android.madd.exercise1.network.NetworkStatusChangeReceiver;
 import com.android.madd.exercise1.network.NetworkStatusHandler;
 
@@ -41,7 +41,6 @@ public class TestingFragment extends MainFragment implements NetworkStatusHandle
         adapter = new SitesAdapter(context, items);
         listView.setAdapter(adapter);
         broadcastReceiver = new NetworkStatusChangeReceiver(this);
-        context.registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @OnClick(R.id.btn_test)
